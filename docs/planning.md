@@ -75,15 +75,15 @@ docker volume rm advers-inc-test_app_node_modules
   - Ячейка position: `<td className="__t">{row.position}</td>`
   - Использовать `useTracker` для реактивного получения данных
 
-### 7. MutationObserver (client-side)
-- [ ] Создать `client/observer.ts`
-- [ ] После mount компонента запустить `MutationObserver` на контейнере таблицы:
+### 7. MutationObserver (client-side) ✅
+- [x] Создать `client/observer.ts`
+- [x] После mount компонента запустить `MutationObserver` на контейнере таблицы:
   ```typescript
   observer.observe(container, { childList: true, subtree: true, characterData: true })
   ```
-- [ ] В колбэке: найти изменённые `.__t`-элементы, вызвать `Meteor.call('translate', token, cb)`
-- [ ] В callback: заменить `element.textContent` переводом
-- [ ] Не допустить рекурсию (отключать observer на время записи или проверять атрибут `data-translated`)
+- [x] В колбэке: найти изменённые `.__t`-элементы, вызвать `Meteor.call('translate', token, cb)`
+- [x] В callback: заменить `element.textContent` переводом
+- [x] Не допустить рекурсию (проверка атрибута `data-translated`)
 
 ### 8. TypeScript — финальная проверка
 - [ ] Все типы явные — никаких `any`

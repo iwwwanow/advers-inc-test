@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { CustomersCollection, CustomerRow } from '../collections';
+import { startObserver } from '../../client/observer';
 
 export const CustomersTable: React.FC = () => {
+  const tbodyRef = useRef<HTMLTableSectionElement>(null);
+  const observerStarted = useRef(false);
+
   const customers = useTracker<CustomerRow[]>(() =>
     CustomersCollection.find({}, { sort: { id: 1 } }).fetch()
   );
+
+  useEffect(() => {
+    if (tbodyRef.current && !observerStarted.current) {
+      observerStarted.current = true;
+      startObserver();
+    }
+  }, [customers]);
 
   return (
     <table className="table table-bordered table-striped">
@@ -16,7 +27,7 @@ export const CustomersTable: React.FC = () => {
           <th>Position</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody ref={tbodyRef}>
         {customers.map((row) => (
           <tr key={row._id}>
             <td>{row.id}</td>
