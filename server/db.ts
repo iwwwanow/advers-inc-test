@@ -11,6 +11,7 @@ export const AppDataSource = new DataSource({
   username: process.env.MYSQL_USER ?? 'root',
   password: process.env.MYSQL_PASSWORD ?? 'root',
   database: process.env.MYSQL_DATABASE ?? 'advers',
+  charset: 'utf8mb4',
   synchronize: false,
   entities: [Customer, Position, Translation],
 });
