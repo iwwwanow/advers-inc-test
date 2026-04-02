@@ -10,12 +10,15 @@
 ## Команды из корня проекта
 
 ```bash
-pnpm up          # поднять весь стек (mysql + mongo + app)
-pnpm down        # остановить всё
-pnpm logs        # логи всех сервисов
-pnpm logs:app    # логи только приложения
-pnpm logs:db     # логи только MySQL
-pnpm dev         # запустить Meteor локально (без Docker)
+pnpm up    # поднять весь стек (mysql + mongo + app) в Docker
+pnpm down  # остановить контейнеры
+pnpm logs  # логи всех сервисов
+pnpm dev   # запустить Meteor локально (альтернатива Docker для app)
+```
+
+При первом запуске удалить сломанный volume если есть:
+```bash
+docker volume rm advers-inc-test_app_node_modules
 ```
 
 ---
@@ -32,21 +35,21 @@ pnpm dev         # запустить Meteor локально (без Docker)
 - [x] Настроить `pnpm-workspace.yaml` + скрипты в `package.json`
 
 ### 2. Инфраструктура Docker ✅
-- [x] `docker-compose.yml` — три сервиса в общей сети `advers-net`:
+- [x] `docker-compose.yml` — три сервиса в сети `advers-net`:
   - `mysql` (MySQL 8.0, порт 3306, healthcheck)
-  - `mongo` (MongoDB 7, внутренний, для Meteor)
-  - `app` (Meteor, порт 3000, hot-reload через volume-mount)
-- [x] `Dockerfile` — Node 22 + Meteor, кэш `.meteor/local` в named volume
-- [x] `.dockerignore`
+  - `mongo` (MongoDB 7, для Meteor)
+  - `app` — образ `geoffreybooth/meteor-base:3.4`, код монтируется volume, `meteor run` (без сборки)
+- [x] `working_dir: /app` + `METEOR_ALLOW_SUPERUSER=1` на app-сервисе
+- [x] `node_modules` в named volume `app_node_modules`, install только при первом старте
+- [x] `.meteor/local` кэшируется в named volume `meteor_local`
 - [x] `docker/mysql/init.sql` — DDL таблиц + seed-данные:
   - `positions`: officer, manager, operator
   - `customers`: Dino Fabrello, Walter Marangoni, Angelo Ottogialli
   - `translations`: officer→офицер, manager→менеджер, operator→оператор
-- [x] Переменные окружения app-контейнера: `MYSQL_HOST=mysql`, `MONGO_URL=mongodb://mongo:27017/advers`
+- [x] TypeORM host в env: `MYSQL_HOST=mysql` (по имени сервиса в Docker-сети)
 
 ### 3. TypeORM-сущности (server-side)
-- [ ] Настроить подключение TypeORM к MySQL в `server/db.ts`
-  - host: localhost, port: 3306, database: advers, user: advers, password: advers
+- [ ] Настроить подключение TypeORM в `server/db.ts` — читать параметры из `process.env` (`MYSQL_HOST`, `MYSQL_PORT`, etc.)
 - [ ] Создать entity `Position` (`server/entities/Position.ts`) — поля: `id`, `name`
 - [ ] Создать entity `Customer` (`server/entities/Customer.ts`) — поля: `id`, `fname`, `lname`, `positionId`, relation → Position
 - [ ] Создать entity `Translation` (`server/entities/Translation.ts`) — поля: `token`, `translation`
@@ -92,7 +95,7 @@ pnpm dev         # запустить Meteor локально (без Docker)
 
 ```
 1 (init) ──→ 3 (entities) ──→ 4 (pub) ──→ 6 (client) ──→ 7 (observer)
-2 (DB)   ──→ 3, 4, 5       → 5 (methods) ↗
+2 (DB)   ──→ 3, 4, 5        → 5 (methods) ↗
 ```
 
 ## Итоговая структура проекта
@@ -104,7 +107,7 @@ pnpm dev         # запустить Meteor локально (без Docker)
 │   └── observer.ts      # MutationObserver логика
 ├── server/
 │   ├── main.ts          # entrypoint сервера
-│   ├── db.ts            # инициализация TypeORM
+│   ├── db.ts            # инициализация TypeORM (параметры из process.env)
 │   ├── publications.ts  # pub customers-with-positions (vlasky:mysql)
 │   ├── methods.ts       # method translate
 │   └── entities/
