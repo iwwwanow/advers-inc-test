@@ -61,9 +61,9 @@ docker volume rm advers-inc-test_app_node_modules
   - Возвращать данные в реактивном режиме (LiveQuery)
 - [x] Типизировать документы: `CustomerRow { _id: string; id: number; fullName: string; position: string }`
 
-### 5. Meteor-метод для перевода (server-side)
-- [ ] Создать `server/methods.ts`
-- [ ] Реализовать метод `translate(token: string): string`
+### 5. Meteor-метод для перевода (server-side) ✅
+- [x] Создать `server/methods.ts`
+- [x] Реализовать метод `translate(token: string): string`
   - TypeORM ActiveRecord: `Translation.findOne({ where: { token } })`
   - Вернуть `translation` или исходный `token`, если перевод не найден
 
