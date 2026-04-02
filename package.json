@@ -5,8 +5,6 @@
     "up": "docker compose up -d",
     "down": "docker compose down",
     "logs": "docker compose logs -f",
-    "logs:app": "docker compose logs -f app",
-    "logs:db": "docker compose logs -f mysql",
     "dev": "meteor run",
     "start": "meteor run",
     "test": "meteor test --once --driver-package meteortesting:mocha",

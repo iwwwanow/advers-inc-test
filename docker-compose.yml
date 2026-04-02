@@ -31,27 +31,30 @@ services:
       - advers-net
 
   app:
-    build: .
+    image: geoffreybooth/meteor-base:3.4
     container_name: advers-app
     restart: unless-stopped
+    working_dir: /app
     ports:
       - "3000:3000"
     environment:
       MONGO_URL: mongodb://mongo:27017/advers
       ROOT_URL: http://localhost:3000
       PORT: 3000
+      METEOR_ALLOW_SUPERUSER: "1"
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
       MYSQL_DATABASE: advers
       MYSQL_USER: advers
       MYSQL_PASSWORD: advers
     volumes:
-      # Монтируем исходники для hot-reload
+      # Исходный код монтируется — изменения подхватываются без пересборки
       - .:/app
-      # Изолируем node_modules контейнера от хостовых
-      - /app/node_modules
-      # Кэшируем скачанные Meteor-пакеты между перезапусками
+      # node_modules контейнера изолированы от хостовых (named volume)
+      - app_node_modules:/app/node_modules
+      # Кэш Meteor-пакетов — не скачивать заново при каждом рестарте
       - meteor_local:/app/.meteor/local
+    command: sh -c "[ ! -d node_modules/meteor-node-stubs ] && (meteor npm cache clean --force; meteor npm install); meteor run --port 3000"
     depends_on:
       mysql:
         condition: service_healthy
@@ -68,3 +71,4 @@ volumes:
   mysql_data:
   mongo_data:
   meteor_local:
+  app_node_modules:
