@@ -24,6 +24,31 @@ MySQL (customers + positions)
   → DOM update: "офицер"
 ```
 
+## Тестирование реактивности
+
+Подключиться к MySQL:
+
+```bash
+docker exec -it advers-mysql mysql -u advers -padvers advers
+```
+
+Команды для изменения данных (изменения появятся в браузере автоматически):
+
+```sql
+-- Добавить клиента
+INSERT INTO customers (fname, lname, position_id) VALUES ('John', 'Doe', 2);
+
+-- Изменить должность
+UPDATE customers SET position_id = 3 WHERE id = 1;
+
+-- Добавить должность с переводом
+INSERT INTO positions (name) VALUES ('director');
+INSERT INTO translations (token, translation) VALUES ('director', 'директор');
+
+-- Удалить клиента
+DELETE FROM customers WHERE id = 4;
+```
+
 ## Замечание по архитектуре MutationObserver
 
 ТЗ требует использовать MutationObserver для отслеживания DOM-изменений и запрашивать перевод через `Meteor.call` отдельным вызовом на сервер.
