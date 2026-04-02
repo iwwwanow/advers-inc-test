@@ -54,12 +54,12 @@ docker volume rm advers-inc-test_app_node_modules
 - [x] Создать entity `Customer` (`server/entities/Customer.ts`) — поля: `id`, `fname`, `lname`, `positionId`, relation → Position
 - [x] Создать entity `Translation` (`server/entities/Translation.ts`) — поля: `token`, `translation`
 
-### 4. Meteor-публикация (server-side)
-- [ ] Создать `server/publications.ts`
-- [ ] Реализовать публикацию `customers-with-positions` через `vlasky:mysql`:
+### 4. Meteor-публикация (server-side) ✅
+- [x] Создать `server/publications.ts`
+- [x] Реализовать публикацию `customers-with-positions` через `vlasky:mysql`:
   - SQL-запрос с JOIN customers + positions
   - Возвращать данные в реактивном режиме (LiveQuery)
-- [ ] Типизировать документы: `CustomerRow { _id: string; id: number; fullName: string; position: string }`
+- [x] Типизировать документы: `CustomerRow { _id: string; id: number; fullName: string; position: string }`
 
 ### 5. Meteor-метод для перевода (server-side)
 - [ ] Создать `server/methods.ts`
