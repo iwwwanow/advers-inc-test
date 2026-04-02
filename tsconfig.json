@@ -34,6 +34,7 @@
         ".meteor/local/types/packages.d.ts"
       ]
     },
+    "skipLibCheck": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "types": ["node", "mocha"],
