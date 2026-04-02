@@ -3,7 +3,9 @@
     "transform": {
       "react": {
         "runtime": "automatic"
-      }
+      },
+      "decoratorMetadata": true,
+      "legacyDecorator": true
     }
   }
 }
