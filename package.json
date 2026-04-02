@@ -2,6 +2,12 @@
   "name": "advers-inc-test",
   "private": true,
   "scripts": {
+    "up": "docker compose up -d",
+    "down": "docker compose down",
+    "logs": "docker compose logs -f",
+    "logs:app": "docker compose logs -f app",
+    "logs:db": "docker compose logs -f mysql",
+    "dev": "meteor run",
     "start": "meteor run",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",

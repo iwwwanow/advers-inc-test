@@ -1,0 +1,70 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: advers-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: advers
+      MYSQL_USER: advers
+      MYSQL_PASSWORD: advers
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "advers", "-padvers"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - advers-net
+
+  mongo:
+    image: mongo:7
+    container_name: advers-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - advers-net
+
+  app:
+    build: .
+    container_name: advers-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URL: mongodb://mongo:27017/advers
+      ROOT_URL: http://localhost:3000
+      PORT: 3000
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: advers
+      MYSQL_USER: advers
+      MYSQL_PASSWORD: advers
+    volumes:
+      # Монтируем исходники для hot-reload
+      - .:/app
+      # Изолируем node_modules контейнера от хостовых
+      - /app/node_modules
+      # Кэшируем скачанные Meteor-пакеты между перезапусками
+      - meteor_local:/app/.meteor/local
+    depends_on:
+      mysql:
+        condition: service_healthy
+      mongo:
+        condition: service_started
+    networks:
+      - advers-net
+
+networks:
+  advers-net:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  mongo_data:
+  meteor_local:
