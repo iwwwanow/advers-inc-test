@@ -48,11 +48,11 @@ docker volume rm advers-inc-test_app_node_modules
   - `translations`: officer→офицер, manager→менеджер, operator→оператор
 - [x] TypeORM host в env: `MYSQL_HOST=mysql` (по имени сервиса в Docker-сети)
 
-### 3. TypeORM-сущности (server-side)
-- [ ] Настроить подключение TypeORM в `server/db.ts` — читать параметры из `process.env` (`MYSQL_HOST`, `MYSQL_PORT`, etc.)
-- [ ] Создать entity `Position` (`server/entities/Position.ts`) — поля: `id`, `name`
-- [ ] Создать entity `Customer` (`server/entities/Customer.ts`) — поля: `id`, `fname`, `lname`, `positionId`, relation → Position
-- [ ] Создать entity `Translation` (`server/entities/Translation.ts`) — поля: `token`, `translation`
+### 3. TypeORM-сущности (server-side) ✅
+- [x] Настроить подключение TypeORM в `server/db.ts` — читать параметры из `process.env` (`MYSQL_HOST`, `MYSQL_PORT`, etc.)
+- [x] Создать entity `Position` (`server/entities/Position.ts`) — поля: `id`, `name`
+- [x] Создать entity `Customer` (`server/entities/Customer.ts`) — поля: `id`, `fname`, `lname`, `positionId`, relation → Position
+- [x] Создать entity `Translation` (`server/entities/Translation.ts`) — поля: `token`, `translation`
 
 ### 4. Meteor-публикация (server-side)
 - [ ] Создать `server/publications.ts`
