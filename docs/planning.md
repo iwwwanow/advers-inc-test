@@ -9,12 +9,13 @@
 
 ## Задачи (приоритет сверху вниз)
 
-### 1. Инициализация проекта
-- [ ] Создать Meteor-приложение: `meteor create . --typescript`
-- [ ] Удалить стандартные шаблоны (counter, etc.), оставить скелет
-- [ ] Добавить пакеты Meteor: `meteor add vlasky:mysql`
-- [ ] Установить npm-зависимости: `meteor npm install typeorm reflect-metadata`
-- [ ] Подключить Bootstrap: `meteor npm install bootstrap` + импорт в клиентском entrypoint
+### 1. Инициализация проекта ✅
+- [x] Создать Meteor-приложение: `meteor create . --typescript`
+- [x] Удалить стандартные шаблоны (counter, etc.), оставить скелет
+- [x] Добавить пакеты Meteor: `meteor add vlasky:mysql` (v1.4.0)
+- [x] Установить npm-зависимости: `meteor npm install typeorm reflect-metadata`
+- [x] Подключить Bootstrap: `meteor npm install bootstrap` (v5.3.3)
+- [x] Настроить `tsconfig.json` с `experimentalDecorators` + `emitDecoratorMetadata`
 
 ### 2. База данных MySQL
 - [ ] Создать таблицы:
