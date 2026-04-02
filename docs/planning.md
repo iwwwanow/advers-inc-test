@@ -67,10 +67,10 @@ docker volume rm advers-inc-test_app_node_modules
   - TypeORM ActiveRecord: `Translation.findOne({ where: { token } })`
   - Вернуть `translation` или исходный `token`, если перевод не найден
 
-### 6. Клиентская подписка и React-компонент
-- [ ] Создать `imports/collections.ts` — Meteor-коллекция `CustomersCollection` с типом `CustomerRow`
-- [ ] В `client/main.tsx` подписаться на публикацию + импортировать Bootstrap
-- [ ] Создать `imports/ui/CustomersTable.tsx`:
+### 6. Клиентская подписка и React-компонент ✅
+- [x] Создать `imports/collections.ts` — Meteor-коллекция `CustomersCollection` с типом `CustomerRow`
+- [x] В `client/main.tsx` подписаться на публикацию + импортировать Bootstrap
+- [x] Создать `imports/ui/CustomersTable.tsx`:
   - Bootstrap-таблица: колонки ID, Full name, Position
   - Ячейка position: `<td className="__t">{row.position}</td>`
   - Использовать `useTracker` для реактивного получения данных
